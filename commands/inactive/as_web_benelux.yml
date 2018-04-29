@@ -1,0 +1,26 @@
+commands:
+  - "Rscript --vanilla alerting_web_as.r {config_file} last_try={is_last_try}"
+schedule: # UTC times
+  - "18:00"
+  - "19:30"
+  - "21:00"
+email:
+  highlight_color: "#ffa549"
+  reg_color: "#FFFFFF"
+  opera_url1: "url_with_settings_part_1"
+  opera_url2: "url_with_settings_part_2"
+  cpp_url: "dashboard_url"
+  top_url: "settings_url"
+web_as:
+  geo: "NL"
+  alias: "alias@company.com"
+  channel: # slack channels
+    tier1: "#scope_t1_benelux"
+  timezone: "Europe/Amsterdam"
+  query:
+    countryConditions: "em.country = 'country' AND em.activity IN ('a', 'b')"
+    tiering: "ranking = 'ranking'"
+    schemaList: "'schema_1'"
+    tableList: "'table_1', 'table_2', 'table_3', 'table_4', 'table_5', 'table_6'"
+beta:
+  active: False

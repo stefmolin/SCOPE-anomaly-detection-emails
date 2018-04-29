@@ -1,0 +1,27 @@
+Package: scopeR
+Title: Functions for SCOPE Alerts
+Version: 1.0.0
+Authors@R: c(person("Stefanie", "Molin", email = "s.molin@example.com", role = c("aut", "cre")), person("Francois", "Pillot", email = "f.pillot@example.com", role = "ctb"))
+Description: R package containing functions for running SCOPE scripts.
+Depends: R (>= 3.2.4)
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+  base64,
+  data.table,
+  digest,
+  dplyr,
+  futile.logger,
+  ggplot2,
+  ggrepel,
+  mailR,
+  outliers,
+  plyr,
+  RJDBC,
+  R.utils,
+  scales,
+  slackr,
+  stringr,
+  yaml
+RoxygenNote: 6.0.1

@@ -1,0 +1,33 @@
+test_mode:
+    email: "s.molin@company.com"
+    channel: "@s.molin"
+slackbot:
+    username: "@scope"
+    incoming_webhook_url: "slack_webhook_url"
+    api_token: "shhhhhh"
+    max_alerts_per_message: 25
+    client_metric_separator: "  -  "
+email:
+    host: "company_email.com"
+    sender: "scope@company.com"
+    config_pass: "/credentials/mail_config.yml"
+run_history:
+    history_file: "/storage/history.yml"
+    py_history_file: "/storage/py_history.yml"
+email_history:
+    email_sent_history: "/storage/web_as_sent_emails.yml"
+    exec_email_sent_history: "/storage/exec_sent_emails.yml"
+    ts_email_sent_history: "/storage/ts_sent_emails.yml"
+    py_ts_email_sent_history: "/storage/py_ts_sent_emails.yml"
+maintainers:
+    - "scopeAlert@company.com"
+cred:
+    main: "/credentials/credentials.txt"
+    mailbox: "/credentials/mailboxCredentials.txt"
+digest:
+    max_alerts: 80
+feedback_link:
+    base: "http://metis.company.com/email_submission"
+    AS_query_string: "?series=<series>&username=<username>&client_id=<client_id>&run_date=<date>&kpi=<kpi>&is_alert=<is_alert>&client_name=<client_name>&cost_center=<cost_center>&ranking=<ranking>&country=<country>&subregion=<subregion>&region=<region>"
+tableau_links:
+    site_events: "tableau_url?partner_name={partner_name}&event_name={event_name}"

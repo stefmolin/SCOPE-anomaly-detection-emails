@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>SCOPE TS Alert for {{ ts.name.title() }}</title>
+    </head>
+    <body style="margin: 0; padding: 0; min-width: 100%!important;">
+        <table width="600" bgcolor="#ffffff" align="center" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    <table width="600" bgcolor="#191e2b" border="0" align="center" cellspacing="0" cellpadding="0" >
+                    <tr>
+                        <td align="center">
+                            <a href="company_wiki/SCOPE">
+                                <img src="cid:{{ standard_images.get('scope_logo').uuid }}" alt="SCOPE">
+                            </a>
+                        </td>
+                    </tr>
+                    </table>
+
+                    {% for partner in ts.partners %}
+                        <table width="600" bgcolor="{{ loop.cycle('#30395e', '#496393', '#84a4ce') }}" align="center" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <table align="center" cellpadding="0" cellspacing="0" border="0">
+                                        <!-- Start client name header -->
+                                        <tr>
+                                            <td align="center" style="padding: 30px 55px 0; font-size: 24px; font-weight: normal;font-family: Arial, sans-serif; color:#FFFFFF;">
+                                                {{ partner.name }}
+                                            </td>
+                                        </tr>
+                                        <!-- End client name header -->
+                                        {% for alert_type, alerts in partner.ordered_alerts.items() %}
+                                            {% set alert_type_split = alert_type.split(':') %}
+                                            {% set alert_super_type = alert_type_split[0] %}
+                                            {% set alert_sub_type = alert_type_split[1] if alert_type_split|length > 1 else None %}
+                                            {% if not loop.previtem %}
+                                                <!-- This is the first KPI for this partner, so include it in the partner name table -->
+                                                <!-- Start alert super type header -->
+                                                <tr>
+                                                    <td align="center" style="font-size: 17px; padding-top: 10px; text-transform: uppercase; font-family: Arial, sans-serif; color:#cfe4f2;">
+                                                        {{ alert_super_type.replace('_', ' ') }}
+                                                    </td>
+                                                </tr>
+                                                <!-- End alert super type header -->
+                                              </table> <!-- Close the partner name table -->
+                                            {% elif (loop.previtem and alert_super_type != loop.previtem[0].split(':')[0]) %}
+                                                <!-- This is not the first KPI for this partner, so put the full table without the partner name -->
+                                                <table align="center" cellpadding="0" cellspacing="0" border="0">
+                                                    <!-- Start alert super type header -->
+                                                    <tr>
+                                                        <td align="center" style="font-size: 17px; padding-top: 40px; text-transform: uppercase; font-family: Arial, sans-serif; color:#cfe4f2;">
+                                                            {{ alert_super_type.replace('_', ' ') }}
+                                                        </td>
+                                                    </tr>
+                                                    <!-- End alert super type header -->
+                                                </table> <!-- Close the partner name table -->
+                                            {% endif %}
+                                            {% if loop.index > 1 %}
+                                                <!-- Start border line -->
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+                                                    <tr>
+                                                        <td align="left" valign="top" style="padding:0; border-bottom:2px solid #272e4a;">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <!-- End border line -->
+                                            {% endif %}
+                                            {% if alert_sub_type %}
+                                              <!-- Start alert sub type header -->
+                                              <table width="550" align="center" cellpadding="0" cellspacing="0" border="0">
+                                                  <tr>
+                                                       {% set preformatted_alert_sub_type = alert_sub_type.lower() %}
+                                                       <td align="center" style="font-size: 16px; padding-top: 40px; font-family: Arial, sans-serif; color:#FFFFFF;">
+                                                          {% if preformatted_alert_sub_type == 'd' %}
+                                                              Desktop
+                                                          {% elif preformatted_alert_sub_type == 'm' %}
+                                                              Mobile
+                                                          {% elif preformatted_alert_sub_type == 't' %}
+                                                              Tablet
+                                                          {% elif preformatted_alert_sub_type == 'aa' %}
+                                                              Android App
+                                                          {% elif preformatted_alert_sub_type == 'aios' %}
+                                                              iOS App
+                                                          {% elif preformatted_alert_sub_type == '0' %}
+                                                              site_type = 0
+                                                          {% else %}
+                                                              {{ preformatted_alert_sub_type.title() }}
+                                                          {% endif %}
+                                                      </td>
+                                                  </tr>
+                                              </table>
+                                              <!-- End alert sub type header -->
+                                            {% endif %}
+                                            {% for graph in alerts %}
+                                                <!-- Start graph section -->
+                                                <table width="550" align="center" cellpadding="0" cellspacing="0">
+                                                    <tr>
+                                                        <td style="padding-bottom: 30px;">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="446">
+                                                            <a href="{{ tableau_links.get('site_events').format(partner_name=partner.name, event_name='product' if graph.metadata.get('event_name') == 'itempageview' else 'page' if graph.metadata.get('event_name') == 'homepage' else graph.metadata.get('event_name')) }}">
+                                                                <img width="450" src="cid:{{ graph.uuid }}">
+                                                            </a>
+                                                        </td>
+                                                        <td width="104" align="center" valign="top">
+                                                            <p align="center" style="margin: 0; text-align:center; font-size:11px; font-family: Arial, sans-serif; color:#e1e1e5;">
+                                                                {% if loop.first %}
+                                                                    Is this an alert?
+
+                                                                {% endif %}
+                                                            </p>
+                                                            <img src="cid:{{ standard_images.get('spacer').uuid }}">
+                                                            {% set feedback_urls = build_metis_feedback_urls(base_feedback_url, ts, partner, alert_sub_type, graph.metadata.get('event_name')) %}
+                                                            <a href="{{ feedback_urls[True] }}" style="text-decoration: none;">
+                                                                <img src="cid:{{ standard_images.get('feedback_button_true').uuid }}">
+                                                            </a>
+                                                            <img src="cid:{{ standard_images.get('spacer').uuid }}">
+                                                            <a href="{{ feedback_urls[False] }}" style="text-decoration: none;">
+                                                                <img src="cid:{{ standard_images.get('feedback_button_false').uuid }}">
+                                                            </a>
+                                                            <img src="cid:{{ standard_images.get('spacer').uuid }}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="padding-bottom: 30px;">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <!-- End graph section -->
+                                            {% endfor %}
+                                        {% endfor %}
+                                </td>
+                            </tr>
+                        </table>
+                    {% endfor %}
+
+                    <table width="600" align="center" bgcolor="#191e2b" cellpadding="0" cellspacing="0" >
+                        <tr>
+                            <td style="padding-left:27px; padding-top:15px; padding-bottom:15px">
+                                <img src="cid:{{ standard_images.get('company_logo').uuid }}">
+                            </td>
+                            <td width="354" align="right" style="text-align:right; padding-right: 27px; padding-top: 9px; font-size:11px; font-family: Arial, sans-serif; color:#FFFFFF;"><a href="slack_channel_url" style="text-decoration: underline; color: #ffffff;">Issues / Comments?</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+commands:
+  - "Rscript --vanilla alerting_exec.r {config_file} last_try={is_last_try}"
+schedule: # UTC times
+  - "18:00"
+  - "19:30"
+  - "21:00"
+email:
+    highlight_color: "#f78f24"
+    regular_color: "#54585a"
+exec:
+  geo: "Americas"
+  recipients:
+    - "user_1@company.com"
+    - "user_2@company.com"
+    - "user_3@company.com"
+    - "user_4@company.com"
+    - "user_5@company.com"
+  cc:
+    - "user_6@company.com"
+    - "user_7@company.com"
+    - "user_8@company.com"
+    - "user_9@company.com"
+    - "user_10@company.com"
+  timezone: "America/New_York"
+  query:
+    schemaList: "'schema_1', 'schema_2'"
+    tableList: "'table_1', 'table_2', 'table_3', 'table_4', 'table_5'"

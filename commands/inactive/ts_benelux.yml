@@ -1,0 +1,22 @@
+commands:
+  - "python3 ts_send.py --config-file {config_file} --last-try {is_last_try}"
+schedule: # UTC times
+  - "17:00"
+  - "18:30"
+  - "20:00"
+results_file: "transfer_r_to_py_ts.yml"
+ts:
+  template: "ts_email.html"
+  subject: "TS Alert for {username}"
+  geo: "NL"
+  alias: "alias@company.com"
+  channel: # slack channels
+    tier1: "#scope_t1_benelux"
+  timezone: "Europe/Amsterdam"
+  query:
+    countryConditions: "em.country = 'country' AND em.cc IN ('country') AND em.activity IN ('a', 'b')"
+    tiering: "ranking IN ('ranking')"
+    schemaList: "'schema_1', 'schema_2'"
+    tableList: "'table_1', 'table_2', 'table_3', 'table_4', 'table_5'"
+beta:
+  active: False

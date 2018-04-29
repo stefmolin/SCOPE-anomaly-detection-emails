@@ -1,0 +1,48 @@
+commands:
+  - "Rscript --vanilla alerting_web_as.r {config_file} last_try={is_last_try}"
+schedule: # UTC times
+  - "18:00"
+  - "19:30"
+  - "21:00"
+email:
+  highlight_color: "#ffa549"
+  reg_color: "#FFFFFF"
+  opera_url1: "url_with_settings_part_1"
+  opera_url2: "url_with_settings_part_2"
+  cpp_url: "dashboard_url"
+  top_url: "settings_url"
+web_as:
+  geo: "DE"
+  alias: "alias@company.com"
+  channel: # slack channels
+    tier1: "#scope_t1_de"
+  timezone: "Europe/Berlin"
+  query:
+    countryConditions: "em.country = 'country' AND em.activity IN ('a', 'b')"
+    tiering: "ranking = 'ranking'"
+    schemaList: "'schema_1'"
+    tableList: "'table_1', 'table_2', 'table_3', 'table_4', 'table_5', 'table_6'"
+  pod_leaders:
+    - "Leader 1"
+    - "Leader 2"
+    - "Leader 3"
+  cc:
+    - "alias_2@company.com"
+beta:
+  active: True
+  testers:
+    - "user_1@company.com"
+    - "user_2@company.com"
+    - "user_3@company.com"
+    - "user_4@company.com"
+    - "user_5@company.com"
+    - "user_6@company.com"
+    - "user_7@company.com"
+    - "user_8@company.com"
+    - "user_9@company.com"
+    - "user_10@company.com"
+    - "user_11@company.com"
+    - "user_12@company.com"
+    - "user_13@company.com"
+    - "user_14@company.com"
+    - "user_15@company.com"
