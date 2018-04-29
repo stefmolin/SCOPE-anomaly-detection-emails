@@ -6,7 +6,7 @@ R, Python 3
 
 ## Related Projects:
 - [Metis](https://github.com/stefmolin/Metis)
-- [Case Study](Coming Soon!)
+- [Case Study](https://github.com/stefmolin/SCOPE-Anomaly-Detection-Case-Study)
 
 ## Disclaimers:
 - This has been modified from its original state to be public.
