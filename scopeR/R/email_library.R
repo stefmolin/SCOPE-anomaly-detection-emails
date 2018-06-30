@@ -458,22 +458,31 @@ build_and_send_AS_alerts <- function(client_stats, client_alerts, root_config_li
         metis_true_alert_link <- URLencode(gsub("<is_alert>", "true", feedback_link))
         metis_false_alert_link <- URLencode(gsub("<is_alert>", "false", feedback_link))
 
+        # generate Sherlock link
+        sherlock_link <- paste0(root_config_list[["sherlock_link"]][["base"]], root_config_list[["sherlock_link"]][["AS_query_string"]])
+        sherlock_link <- gsub("<kpi>", as.character(metric), sherlock_link)
+        sherlock_link <- gsub("<client_id>", client_id, sherlock_link)
+        sherlock_link <- gsub("<start_date>", Sys.Date() - 16, sherlock_link)
+        sherlock_link <- gsub("<end_date>", Sys.Date() - 1, sherlock_link)
+
         # add first alert for the client (first_client_alert)
         if(i == 1){
           # fill in HTML
           first_client_alert <- gsub("clientNameHere", client, first_client_alert_HTML)
           first_client_alert <- gsub("anomalyMetricHere", toupper(metric), first_client_alert)
           first_client_alert <- gsub("graphLocationHere", plot_filename, first_client_alert)
-          first_client_alert <- gsub("operaLinkHere", opera_link, first_client_alert)
+          first_client_alert <- gsub("dashboardLinkHere", opera_link, first_client_alert)
           first_client_alert <- gsub("MetisTrueAlertLinkHere", metis_true_alert_link, first_client_alert)
           first_client_alert <- gsub("MetisFalseAlertLinkHere", metis_false_alert_link, first_client_alert)
+          first_client_alert <- gsub("SherlockLinkHere", sherlock_link, first_client_alert)
         } else{
           # add remaining alerts to client if applicable (additional_client_alerts)
           additional_client_alert <- gsub("anomalyMetricHere", toupper(metric), additional_client_alert_HTML)
           additional_client_alert <- gsub("graphLocationHere", plot_filename, additional_client_alert)
-          additional_client_alert <- gsub("operaLinkHere", opera_link, additional_client_alert)
+          additional_client_alert <- gsub("dashboardLinkHere", opera_link, additional_client_alert)
           additional_client_alert <- gsub("MetisTrueAlertLinkHere", metis_true_alert_link, additional_client_alert)
           additional_client_alert <- gsub("MetisFalseAlertLinkHere", metis_false_alert_link, additional_client_alert)
+          additional_client_alert <- gsub("SherlockLinkHere", sherlock_link, additional_client_alert)
 
           # change border color when adding additional alerts, border color depends on client color
           additional_client_alert <- gsub("borderColorHere", border_color, additional_client_alert)

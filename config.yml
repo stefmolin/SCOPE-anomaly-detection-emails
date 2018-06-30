@@ -31,3 +31,6 @@ feedback_link:
     AS_query_string: "?series=<series>&username=<username>&client_id=<client_id>&run_date=<date>&kpi=<kpi>&is_alert=<is_alert>&client_name=<client_name>&cost_center=<cost_center>&ranking=<ranking>&country=<country>&subregion=<subregion>&region=<region>"
 tableau_links:
     site_events: "tableau_url?partner_name={partner_name}&event_name={event_name}"
+sherlock_link:
+    base: "http://sherlock.company.com/parameter_entry"
+    AS_query_string: "?kpi=<kpi>&start_date=<start_date>&end_date=<end_date>&client_id=<client_id>"

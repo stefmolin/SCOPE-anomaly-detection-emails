@@ -27,14 +27,16 @@ class EmailImage:
         self.uuid = str(uuid.uuid5(uuid.NAMESPACE_URL, filename)) + str(uuid.uuid1())
 
 class Email:
-    def __init__(self, ts, standard_images, tableau_links, base_feedback_url, template_name):
+    def __init__(self, ts, standard_images, tableau_links, base_feedback_url, base_sherlock_url, template_name):
         # Prepare email body
         env = Environment(loader=PackageLoader('templates', ''))
         template = env.get_template(template_name)
         self.body = template.render(ts=ts, standard_images=standard_images,
                                     tableau_links=tableau_links,
                                     base_feedback_url=base_feedback_url,
-                                    build_metis_feedback_urls=build_metis_feedback_urls)
+                                    base_sherlock_url=base_sherlock_url,
+                                    build_metis_feedback_urls=build_metis_feedback_urls,
+                                    build_sherlock_link=build_sherlock_link)
         self.MIME_msg = self.build_MIME_message(ts, standard_images)
 
     def build_MIME_message(self, ts, standard_images):
@@ -257,6 +259,22 @@ def build_metis_feedback_urls(base_url, ts, partner, site_type, event_name):
 
     return feedback_url_dict
 
+def build_sherlock_link(base_url, partner):
+    split_url = urlsplit(base_url)
+
+    partner_id = partner.id
+    end_date = datetime.date.today() - datetime.timedelta(1)
+    start_date = end_date - datetime.timedelta(15)
+
+    query_params = {'partner_id' : partner_id,
+                    'start_date' : str(start_date),
+                    'end_date' : str(end_date),
+                    'kpi' : 'site_events'}
+    query_string = urlencode(query_params)
+
+    sherlock_url = urlunsplit((split_url.scheme, split_url.netloc, split_url.path, query_string, ''))
+    return sherlock_url
+
 if __name__ == '__main__':
     # Parse the command line arguments
     parser = argparse.ArgumentParser(description='Send alerts to TS')
@@ -295,12 +313,13 @@ if __name__ == '__main__':
 
                 feedback_link = global_config['feedback_link']['base']
                 tableau_links = global_config['tableau_links']
+                sherlock_link = global_config['sherlock_link']['base']
 
                 standard_email_images = { 'scope_logo' : 'scope_header.png',
                                           'feedback_button_true' : 'scope_true_L.png',
                                           'feedback_button_false' : 'scope_false_L.png',
-                                          'spacer' : 'scope_qualify_space.png',
-                                          'company_logo' : 'scope_footer.png' }
+                                          'company_logo' : 'scope_footer.png',
+                                          'sherlock_button' : 'scope_sherlock_L.png' }
                 standard_email_images = { key : EmailImage(os.path.join('images', img))
                                           for key, img in standard_email_images.items() }
 
@@ -323,6 +342,7 @@ if __name__ == '__main__':
                     email = Email(ts=ts, standard_images=standard_email_images,
                                 tableau_links=tableau_links,
                                 base_feedback_url=feedback_link,
+                                base_sherlock_url=sherlock_link,
                                 template_name=config['ts']['template'])
                     email_client.send_email(email.MIME_msg, subject, toaddr, bcc=bcc)
                     history.log_email_sent(to_address=toaddr, subject=subject)

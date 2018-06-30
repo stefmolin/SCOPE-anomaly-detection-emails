@@ -26,7 +26,7 @@
                                         <!-- Start client name header -->
                                         <tr>
                                             <td align="center" style="padding: 30px 55px 0; font-size: 24px; font-weight: normal;font-family: Arial, sans-serif; color:#FFFFFF;">
-                                                {{ partner.name }}
+                                                <a href="setup_url/{{partner.id}}" style="text-decoration: none; color: #ffffff;">{{ partner.name }}</a>
                                             </td>
                                         </tr>
                                         <!-- End client name header -->
@@ -112,16 +112,30 @@
 
                                                                 {% endif %}
                                                             </p>
-                                                            <img src="cid:{{ standard_images.get('spacer').uuid }}">
                                                             {% set feedback_urls = build_metis_feedback_urls(base_feedback_url, ts, partner, alert_sub_type, graph.metadata.get('event_name')) %}
-                                                            <a href="{{ feedback_urls[True] }}" style="text-decoration: none;">
-                                                                <img src="cid:{{ standard_images.get('feedback_button_true').uuid }}">
-                                                            </a>
-                                                            <img src="cid:{{ standard_images.get('spacer').uuid }}">
-                                                            <a href="{{ feedback_urls[False] }}" style="text-decoration: none;">
-                                                                <img src="cid:{{ standard_images.get('feedback_button_false').uuid }}">
-                                                            </a>
-                                                            <img src="cid:{{ standard_images.get('spacer').uuid }}">
+                                                            <table width="104" align="center" valign="top">
+                                                              <tr>
+                                                                <td style="padding-top: 2px; padding-bottom: 5px;" align="center">
+                                                                  <a href="{{ feedback_urls[True] }}" style="text-decoration: none;">
+                                                                      <img src="cid:{{ standard_images.get('feedback_button_true').uuid }}">
+                                                                  </a>
+                                                                </td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td style="padding-bottom: 12px;" align="center">
+                                                                  <a href="{{ feedback_urls[False] }}" style="text-decoration: none;">
+                                                                      <img src="cid:{{ standard_images.get('feedback_button_false').uuid }}">
+                                                                  </a>
+                                                                </td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td align="center">
+                                                                  <a href="{{ build_sherlock_link(base_sherlock_url, partner) }}" style="text-decoration: none;">
+                                                                      <img src="cid:{{ standard_images.get('sherlock_button').uuid }}">
+                                                                  </a>
+                                                                </td>
+                                                              </tr>
+                                                            </table>
                                                         </td>
                                                     </tr>
                                                     <tr>
